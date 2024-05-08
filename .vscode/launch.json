@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug 1С",
+            "program": "/opt/1cv8/x86_64/8.3.24.1368/1cv8c",
+            "args": [
+                "/IBName",
+                "AddinTest2",
+                "/WA",
+                "-",
+                "/C",
+                "РежимОтладки",
+                "/L", 
+                "ru",
+                "/VL",
+                "ru_RU",
+                "/DisplayPerformance",
+                "/TechnicalSpecialistMode",
+                "/EnableCheckExtensionsAndAddInsSyncCalls",
+                "/DEBUG",
+                "-tcp",
+                "DEBUGGERURL",
+                "tcp://127.0.0.1:1564"
+            ],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "rust: cargo build"
+        },
+    ]
+}

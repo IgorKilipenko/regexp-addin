@@ -1,0 +1,12 @@
+[package]
+name = "test-addin2"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+utf16_lit = "2.0"
+native_api_1c = { path = "/mnt/SSD_2TB_2023/git/onec/addins/native_api_1c_fork/native_api_1c" }
+chrono = "0.4.26"
