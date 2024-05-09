@@ -4,7 +4,7 @@ use std::sync::Arc;
 mod regex_addin;
 
 #[derive(AddIn)]
-pub struct TestAddIn {
+pub struct RegExp {
     #[add_in_con]
     connection: Arc<Option<&'static Connection>>,
 
@@ -18,7 +18,7 @@ pub struct TestAddIn {
         fn(&Self, String, String, String, bool) -> Result<String, Box<dyn std::error::Error>>,
 }
 
-impl TestAddIn {
+impl RegExp {
     pub fn new() -> Self {
         Self {
             connection: Arc::new(None),

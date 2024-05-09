@@ -123,6 +123,7 @@ checksum = "6c8640c5d730cb13ebd907d8d04b52f55ac9a2eec55b440c8892f40d56c76c1d"
 [[package]]
 name = "native_api_1c"
 version = "0.10.7"
+source = "git+https://github.com/Sebekerga/native_api_1c#42d8abe53f8e6701c1f3c067ba5334e53a3d7200"
 dependencies = [
  "native_api_1c_core",
  "native_api_1c_macro",
@@ -131,6 +132,7 @@ dependencies = [
 [[package]]
 name = "native_api_1c_core"
 version = "0.9.4"
+source = "git+https://github.com/Sebekerga/native_api_1c#42d8abe53f8e6701c1f3c067ba5334e53a3d7200"
 dependencies = [
  "chrono",
  "quote",
@@ -141,6 +143,7 @@ dependencies = [
 [[package]]
 name = "native_api_1c_macro"
 version = "0.10.5"
+source = "git+https://github.com/Sebekerga/native_api_1c#42d8abe53f8e6701c1f3c067ba5334e53a3d7200"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -210,6 +213,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "adad44e29e4c806119491a7f06f03de4d1af22c3a680dd47f1e6e179439d1f56"
 
 [[package]]
+name = "regexp-addin"
+version = "0.1.0"
+dependencies = [
+ "chrono",
+ "native_api_1c",
+ "regex",
+ "utf16_lit",
+]
+
+[[package]]
 name = "syn"
 version = "2.0.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -218,16 +231,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "test-addin2"
-version = "0.1.0"
-dependencies = [
- "chrono",
- "native_api_1c",
- "regex",
- "utf16_lit",
 ]
 
 [[package]]

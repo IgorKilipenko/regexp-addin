@@ -1,5 +1,5 @@
 [package]
-name = "test-addin2"
+name = "regexp-addin"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,6 +8,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 utf16_lit = "2.0"
-native_api_1c = { path = "/mnt/SSD_2TB_2023/git/onec/addins/native_api_1c_fork/native_api_1c" }
+native_api_1c = { git = "https://github.com/Sebekerga/native_api_1c" }
 chrono = "0.4.26"
 regex = "1.10"
