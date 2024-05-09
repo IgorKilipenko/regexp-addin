@@ -4,8 +4,8 @@
 		<Metadata name="Configuration.ТестыВнешнихКомпонент" id="0f5b195d-4bfd-4c1a-a6ba-2b9bfafb4209" configVersion="511cc9e926be3745b12a163aa0e54beb00000000"/>
 		<Metadata name="Configuration.ТестыВнешнихКомпонент.HomePageWorkArea" id="32fa5d40-bf0f-4f4d-9f3e-68ea5ef03947.8" configVersion="5a464de2634fbf4aba85ab2afc83744400000000"/>
 		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения" id="b7939d81-c520-41b9-bd84-a27142ee2c18" configVersion="c0666ff2e812f144b92a440eac9cb30300000000"/>
-		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма" id="509b8f4e-f949-4871-aba1-611bb7b55962" configVersion="64cc118b8b9f1f4bae8eeada0443f30f00000000"/>
-		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма.Form" id="509b8f4e-f949-4871-aba1-611bb7b55962.0" configVersion="fdefefafcb8f6a40813632683e4b756200000000"/>
+		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма" id="509b8f4e-f949-4871-aba1-611bb7b55962" configVersion="4fd943950e198440bfba3455af9347af00000000"/>
+		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма.Form" id="509b8f4e-f949-4871-aba1-611bb7b55962.0" configVersion="9d83e56e6777a6428ca0e12c136721b000000000"/>
 		<Metadata name="Language.Русский" id="2e84f091-cb2b-4653-9e97-6a120f3fdbc9" configVersion="c693aedfff36a64f965b81400729021200000000"/>
 		<Metadata name="Subsystem.Тесты" id="c1361a71-5662-40dd-8137-bef55d04f4c3" configVersion="c2c6e949872afd4bbc8c52ea3f36096000000000"/>
 	</ConfigVersions>

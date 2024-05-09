@@ -21,44 +21,54 @@
 			<HorizontalStretch>true</HorizontalStretch>
 			<ExtendedTooltip name="ГруппаТестыРасширеннаяПодсказка" id="4"/>
 			<ChildItems>
-				<Page name="Подключение" id="5">
+				<Page name="ГруппаЗаменаТекста" id="7">
 					<Title>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Подключение</v8:content>
+							<v8:content>Замена текста</v8:content>
 						</v8:item>
 					</Title>
 					<ToolTip>
 						<v8:item>
 							<v8:lang>ru</v8:lang>
-							<v8:content>Подключение</v8:content>
+							<v8:content>Группа замена текста</v8:content>
 						</v8:item>
 					</ToolTip>
-					<Group>HorizontalIfPossible</Group>
-					<ExtendedTooltip name="ПодключениеРасширеннаяПодсказка" id="6"/>
+					<ExtendedTooltip name="ГруппаЗаменаТекстаРасширеннаяПодсказка" id="8"/>
 					<ChildItems>
-						<Button name="Команда1" id="1">
-							<Type>UsualButton</Type>
-							<CommandName>Form.Command.Команда1</CommandName>
-							<ExtendedTooltip name="Команда1РасширеннаяПодсказка" id="2"/>
-						</Button>
-					</ChildItems>
-				</Page>
-				<Page name="РегВыражения" id="7">
-					<Title>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Регулярные выражения</v8:content>
-						</v8:item>
-					</Title>
-					<ToolTip>
-						<v8:item>
-							<v8:lang>ru</v8:lang>
-							<v8:content>Рег выражения</v8:content>
-						</v8:item>
-					</ToolTip>
-					<ExtendedTooltip name="РегВыраженияРасширеннаяПодсказка" id="8"/>
-					<ChildItems>
+						<UsualGroup name="ГруппаНастрокиЗамены" id="28">
+							<Title>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Настройки</v8:content>
+								</v8:item>
+							</Title>
+							<ToolTip>
+								<v8:item>
+									<v8:lang>ru</v8:lang>
+									<v8:content>Группа настроки замены</v8:content>
+								</v8:item>
+							</ToolTip>
+							<Group>Vertical</Group>
+							<Behavior>Collapsible</Behavior>
+							<Collapsed>true</Collapsed>
+							<Representation>None</Representation>
+							<ExtendedTooltip name="ГруппаНастрокиЗаменыРасширеннаяПодсказка" id="29"/>
+							<ChildItems>
+								<CheckBoxField name="ФормаИскатьВсеСоответствия" id="25">
+									<DataPath>ФормаИскатьВсеСоответствия</DataPath>
+									<Title>
+										<v8:item>
+											<v8:lang>ru</v8:lang>
+											<v8:content>Все соответствия</v8:content>
+										</v8:item>
+									</Title>
+									<CheckBoxType>Auto</CheckBoxType>
+									<ContextMenu name="ФормаИскатьВсеСоответствияКонтекстноеМеню" id="26"/>
+									<ExtendedTooltip name="ФормаИскатьВсеСоответствияРасширеннаяПодсказка" id="27"/>
+								</CheckBoxField>
+							</ChildItems>
+						</UsualGroup>
 						<InputField name="ИсходныйТекст" id="11">
 							<DataPath>ФормаИсходныйТекст</DataPath>
 							<TitleLocation>Top</TitleLocation>
@@ -194,11 +204,19 @@
 				</v8:StringQualifiers>
 			</Type>
 		</Attribute>
+		<Attribute name="ФормаИскатьВсеСоответствия" id="6">
+			<Title>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Форма искать все соответствия</v8:content>
+				</v8:item>
+			</Title>
+			<Type>
+				<v8:Type>xs:boolean</v8:Type>
+			</Type>
+		</Attribute>
 	</Attributes>
 	<Commands>
-		<Command name="Команда1" id="1">
-			<Action>Команда1</Action>
-		</Command>
 		<Command name="ЗаменитьТекст" id="2">
 			<Title>
 				<v8:item>
