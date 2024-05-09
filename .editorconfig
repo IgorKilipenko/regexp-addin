@@ -1,0 +1,39 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# All files
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Rust source files
+[*.rs]
+indent_style = space
+indent_size = 4
+max_line_length = 140
+
+# Cargo.toml
+[Cargo.toml]
+indent_style = space
+indent_size = 4
+
+# TOML files
+[*.toml]
+indent_style = space
+indent_size = 4
+
+# Markdown files
+[*.md]
+indent_style = space
+indent_size = 2
+
+# Ignore .editorconfig files when linting
+[**/*.editorconfig]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = false
+trim_trailing_whitespace = false
