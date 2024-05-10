@@ -1,2 +1,10 @@
-﻿Modified: DataProcessor.Тесты_РегулярныеВыражения.Form.Форма
-Modified: DataProcessor.Тесты_РегулярныеВыражения.Form.Форма.Form
+﻿New: CommonModule.ВК_РегВыражения
+New: CommonModule.ВК_РегВыражения.Module
+New: CommonModule.УправлениеВК
+New: CommonModule.УправлениеВК.Module
+New: CommonTemplate.РегулярныеВыраженияМакет
+New: CommonTemplate.РегулярныеВыраженияМакет.Template
+New: DataProcessor.Тесты_РегулярныеВыраженияСервер
+New: DataProcessor.Тесты_РегулярныеВыраженияСервер.Form.Форма
+New: DataProcessor.Тесты_РегулярныеВыраженияСервер.Form.Форма.Form
+Modified: Configuration.ТестыВнешнихКомпонент

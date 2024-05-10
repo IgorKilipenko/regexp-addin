@@ -36,7 +36,7 @@
                 "sync",
                 "-u",
                 "Администратор",
-                "/workspaces/onec-storage",
+                "~/Documents/_onec_dbs/regex-addin-tests/storage",
                 "${workspaceRoot}/example/src"
             ],
             "group": "none",

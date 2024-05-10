@@ -247,7 +247,11 @@
 		<ChildObjects>
 			<Language>Русский</Language>
 			<Subsystem>Тесты</Subsystem>
+			<CommonTemplate>РегулярныеВыраженияМакет</CommonTemplate>
+			<CommonModule>ВК_РегВыражения</CommonModule>
+			<CommonModule>УправлениеВК</CommonModule>
 			<DataProcessor>Тесты_РегулярныеВыражения</DataProcessor>
+			<DataProcessor>Тесты_РегулярныеВыраженияСервер</DataProcessor>
 		</ChildObjects>
 	</Configuration>
 </MetaDataObject>
