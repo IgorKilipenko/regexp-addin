@@ -8,7 +8,7 @@
                 "sync",
                 "-u",
                 "Администратор",
-                "~/Documents/_onec_dbs/regex-addin-tests/storage",
+                "/workspaces/onec-storage",
                 "${workspaceRoot}/src"
             ],
             "group": "none",
