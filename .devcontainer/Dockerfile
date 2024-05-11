@@ -3,7 +3,7 @@ FROM rust:bullseye
 ENV onescript_ver=1.9.0
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
-    apt install -y --no-install-recommends gcc-mingw-w64
+    apt install -y --no-install-recommends gcc-mingw-w64 zip
 
 RUN rustup target add x86_64-pc-windows-gnu
 RUN rustup toolchain install stable-x86_64-pc-windows-gnu
