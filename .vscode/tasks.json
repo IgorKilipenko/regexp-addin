@@ -28,6 +28,19 @@
                 "kind": "build",
                 "isDefault": false
             }
+        },
+        {
+            "type": "shell",
+            "command": "gitsync",
+            "args": [
+                "sync",
+                "-u",
+                "Администратор",
+                "/workspaces/onec-storage",
+                "${workspaceRoot}/example/src"
+            ],
+            "group": "none",
+            "label": "oscript: gitsync sync"
         }
     ]
 }
