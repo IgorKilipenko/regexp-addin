@@ -1,8 +1,5 @@
 FROM rust:bullseye
 
-ENV LANG ru_RU.UTF-8
-#ENV LC_ALL ru_RU.UTF-8
-
 ENV onescript_ver=1.9.0
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive \
