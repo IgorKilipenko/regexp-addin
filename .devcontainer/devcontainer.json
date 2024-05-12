@@ -9,20 +9,15 @@
 
 	// Use 'mounts' to make the cargo cache persistent in a Docker Volume.
 	"mounts": [
+		// {
+		// 	"source": "~/Documents/_onec_dbs/regex-addin-tests/storage",
+		// 	"target": "/workspaces/onec-storage",
+		// 	"type": "bind"
+		// },
 		{
 			"source": "devcontainer-cargo-cache-${devcontainerId}",
 			"target": "/usr/local/cargo",
 			"type": "volume"
-		},
-		{
-			"source": "${localWorkspaceFolder}/target",
-			"target": "/workspace/target",
-			"type": "bind"
-		},
-		{
-			"source": "/home/igor/Documents/_onec_dbs/regex-addin-tests/storage",
-			"target": "/workspaces/onec-storage",
-			"type": "bind"
 		}
 	],
 
