@@ -54,7 +54,7 @@ fi
 target_dir=$(readlink -f "$target_dir")
 
 # Сборка файлов
-build_flags="${profile:+$( [ "$profile" = "release" ] && echo "--release" )}"
+build_flags=${profile:+$( [ "$profile" = "release" ] && echo --release )}
 cargo build --target x86_64-pc-windows-gnu $build_flags
 cargo build --target i686-pc-windows-gnu $build_flags
 cargo build --target x86_64-unknown-linux-gnu $build_flags
