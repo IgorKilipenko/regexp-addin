@@ -5,13 +5,13 @@
 		<Metadata name="CommonModule.ВК_РегВыражения.Module" id="969172a7-3758-406e-aa31-bc186358d5af.0" configVersion="d4f5087c45230344a59c9b0c09d2751700000000"/>
 		<Metadata name="CommonModule.УправлениеВК" id="5de63e8c-3063-43e4-b749-ea3d4f4fc8d8" configVersion="3cff4adc9a59514f9bae461920a5b27e00000000"/>
 		<Metadata name="CommonModule.УправлениеВК.Module" id="5de63e8c-3063-43e4-b749-ea3d4f4fc8d8.0" configVersion="253a829356ac3a49bbb76377a1e5a47000000000"/>
-		<Metadata name="CommonTemplate.РегулярныеВыраженияМакет" id="b30f7040-b17c-487c-a99c-5a8caa3d4f54" configVersion="741e4548dd2f7647aa44a80a4d76786000000000"/>
-		<Metadata name="CommonTemplate.РегулярныеВыраженияМакет.Template" id="b30f7040-b17c-487c-a99c-5a8caa3d4f54.0" configVersion="bf8d3926016c3245b319ed6e492175a300000000"/>
+		<Metadata name="CommonTemplate.РегулярныеВыраженияВК" id="b30f7040-b17c-487c-a99c-5a8caa3d4f54" configVersion="d62968bbb7e8f148b725726c5bfb168300000000"/>
+		<Metadata name="CommonTemplate.РегулярныеВыраженияВК.Template" id="b30f7040-b17c-487c-a99c-5a8caa3d4f54.0" configVersion="55030b8a2ce29647816855f686ce4a0f00000000"/>
 		<Metadata name="Configuration.ТестыВнешнихКомпонент" id="0f5b195d-4bfd-4c1a-a6ba-2b9bfafb4209" configVersion="9130f6a20914c7459a0acb5a431918e000000000"/>
 		<Metadata name="Configuration.ТестыВнешнихКомпонент.HomePageWorkArea" id="32fa5d40-bf0f-4f4d-9f3e-68ea5ef03947.8" configVersion="5a464de2634fbf4aba85ab2afc83744400000000"/>
 		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения" id="b7939d81-c520-41b9-bd84-a27142ee2c18" configVersion="c0666ff2e812f144b92a440eac9cb30300000000"/>
-		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма" id="509b8f4e-f949-4871-aba1-611bb7b55962" configVersion="4fd943950e198440bfba3455af9347af00000000"/>
-		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма.Form" id="509b8f4e-f949-4871-aba1-611bb7b55962.0" configVersion="9d83e56e6777a6428ca0e12c136721b000000000"/>
+		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма" id="509b8f4e-f949-4871-aba1-611bb7b55962" configVersion="4cc0e04285637b44bd173a6e6008165800000000"/>
+		<Metadata name="DataProcessor.Тесты_РегулярныеВыражения.Form.Форма.Form" id="509b8f4e-f949-4871-aba1-611bb7b55962.0" configVersion="d52cb889ce6cac4c8d855d7e96a617c600000000"/>
 		<Metadata name="DataProcessor.Тесты_РегулярныеВыраженияСервер" id="06d65fa4-f998-465c-b79a-4708faba122d" configVersion="80acad02e5151a459f6884b2d8b984b100000000"/>
 		<Metadata name="DataProcessor.Тесты_РегулярныеВыраженияСервер.Form.Форма" id="b26582d7-86b0-4807-b241-f2fa02ec512d" configVersion="8f60cf880e6ab94b93cad73d7aae7ba200000000"/>
 		<Metadata name="DataProcessor.Тесты_РегулярныеВыраженияСервер.Form.Форма.Form" id="b26582d7-86b0-4807-b241-f2fa02ec512d.0" configVersion="5012c332b52bbd47828c0f06f3feb7b300000000"/>
