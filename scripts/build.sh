@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version="0.1.0"
+version="0.1.1"
 progid="RegExp"
 
 # Получение имени платформы
@@ -69,7 +69,7 @@ else
 fi
 
 # Удаление существующего архива
-rm -rf "$target_dir"/out/*
+rm -rf "$target_dir/out/$zipfile"
 
 # Создание временной директории для копирования файлов
 temp_dir=$(mktemp -d)
