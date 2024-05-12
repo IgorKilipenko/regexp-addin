@@ -50,13 +50,15 @@ if [ ! -d "$target_dir" ]; then
     mkdir -p "$target_dir/out"
 fi
 
+# Получение абсолютного пути папки targrt
 target_dir=$(readlink -f "$target_dir")
 
 # Сборка файлов
-cargo build --target x86_64-pc-windows-gnu
-cargo build --target i686-pc-windows-gnu
-cargo build --target x86_64-unknown-linux-gnu
-cargo build --target i686-unknown-linux-gnu
+build_flags="${profile:+$( [ "$profile" = "release" ] && echo " --release" )}"
+cargo build --target x86_64-pc-windows-gnu"${build_flags}"
+cargo build --target i686-pc-windows-gnu"${build_flags}"
+cargo build --target x86_64-unknown-linux-gnu"${build_flags}"
+cargo build --target i686-unknown-linux-gnu"${build_flags}"
 
 # Формирование имени выходного архива
 lib_name="regexp_addin"
@@ -82,7 +84,7 @@ cd "$target_dir/out" || exit
 
 # Используем find для поиска файлов .so и .dll в поддиректориях debug, игнорируя путь */debug/*deps
 # Передаем их в цикл for, где копируем файлы во временную директорию с измененными именами
-for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*${lib_name}.dll" \) -not -path "*/${profile}/*deps*"); do
+for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*${lib_name}.dll" \) \( -path "*/${profile}/*" -not -path "*/deps/*" \)); do
     file_name=$(basename "$file")
     component_name=$(basename "$file_name" | sed 's/^lib//; s/\.[^.]*$//')
     extension="${file_name##*.}"
