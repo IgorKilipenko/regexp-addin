@@ -20,7 +20,7 @@
         {
             "label": "Build debug",
             "type": "shell",
-            "command": "/bin/bash ./.vscode/scripts/build.sh",
+            "command": "/bin/bash ./scripts/build.sh",
             "problemMatcher": [
                 "$rustc"
             ],
