@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+version="0.1.0"
+progid="RegExp"
+
 # Получение имени платформы
 #
 # Используется для определения имени платформы, на которой запущен скрипт.
@@ -30,10 +33,19 @@ get_platform_name() {
 # Обработка аргументов
 if [ "$#" -eq 0 ]; then
     target_dir="./target"
-else
+    profile="debug"
+elif [ "$#" -eq 1 ]; then
     target_dir="$1"
+    profile="debug"
+elif [ "$#" -eq 2 ]; then
+    target_dir="$1"
+    profile="$2"
+else
+    echo "Использование: $0 [target_dir] [profile]"
+    exit 1
 fi
 
+# Создание целевой директории, если не существует
 if [ ! -d "$target_dir" ]; then
     mkdir -p "$target_dir/out"
 fi
@@ -46,9 +58,13 @@ cargo build --target i686-pc-windows-gnu
 cargo build --target x86_64-unknown-linux-gnu
 cargo build --target i686-unknown-linux-gnu
 
-# Создание архива
+# Формирование имени выходного архива
 lib_name="regexp_addin"
-zipfile="$lib_name.zip"
+if [[ $profile == "relese" ]]; then
+    zipfile="${lib_name}.zip"
+else
+    zipfile="${lib_name}_${profile}.zip"
+fi
 
 # Удаление существующего архива
 rm -rf "$target_dir"/out/*
@@ -66,10 +82,9 @@ cd "$target_dir/out" || exit
 
 # Используем find для поиска файлов .so и .dll в поддиректориях debug, игнорируя путь */debug/*deps
 # Передаем их в цикл for, где копируем файлы во временную директорию с измененными именами
-for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*${lib_name}.dll" \) -not -path "*/debug/*deps*"); do
+for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*${lib_name}.dll" \) -not -path "*/${profile}/*deps*"); do
     file_name=$(basename "$file")
-    #filename_without_extension="${file_name%.*}"
-    component_name=$(basename "$name" | sed 's/^lib//; s/\.[^.]*$//')
+    component_name=$(basename "$file_name" | sed 's/^lib//; s/\.[^.]*$//')
     extension="${file_name##*.}"
 
     parent_dir=$(basename "$(dirname $(dirname "$file"))")
@@ -108,24 +123,26 @@ for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*$
         xml_component="    <component os=\"$os\" path=\"$new_name\" type=\"native\" arch=\"$arch\" />"
 
         # Добавление строки компонента в общий XML
-        xml_components=$(printf "%s\n%s" "$xml_components" "$xml_component")
+        if [[ $xml_components == "" ]]; then
+            xml_components="$xml_component"
+        else
+            xml_components=$(printf "%s\n%s" "$xml_components" "$xml_component")
+        fi
     fi
 done
 
-echo "Компоненты: $xml_components"
-
 # Запись Manifest XML
-manifest_xml_start="<?xml version="1.0" encoding="UTF-8"?>
-<bundle xmlns="http://v8.1c.ru/8.2/addin/bundle" name="SRegExp">"
+manifest_xml_start="<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
+<bundle xmlns=\"http://v8.1c.ru/8.2/addin/bundle\" name=\"${progid}\">"
 manifest_xml=$(printf "%s\n%s\n</bundle>" "$manifest_xml_start" "$xml_components")
-echo -e "$manifest_xml" > "$temp_dir/Manifest.xml"
+echo "$manifest_xml" > "$temp_dir/Manifest.xml"
 
 # Запись info XML
-echo "<?xml version="1.0" encoding="UTF-8"?>
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>
 <info>
-    <progid>SRegExp</progid>
+    <progid>${progid}</progid>
     <name>Регулярные выражения</name>
-    <version>0.1.0</version>
+    <version>${version}</version>
 </info>" > "$temp_dir/info.xml"
 
 # Упаковываем скопированные файлы в архив
