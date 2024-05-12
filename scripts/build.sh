@@ -60,7 +60,7 @@ cargo build --target i686-unknown-linux-gnu
 
 # Формирование имени выходного архива
 lib_name="regexp_addin"
-if [[ $profile == "relese" ]]; then
+if [[ $profile == "release" ]]; then
     zipfile="${lib_name}.zip"
 else
     zipfile="${lib_name}_${profile}.zip"

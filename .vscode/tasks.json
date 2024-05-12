@@ -30,6 +30,18 @@
             }
         },
         {
+            "label": "Build release",
+            "type": "shell",
+            "command": "/bin/bash ./scripts/build.sh",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
             "type": "shell",
             "command": "gitsync",
             "args": [
