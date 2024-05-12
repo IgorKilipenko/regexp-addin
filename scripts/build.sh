@@ -48,17 +48,23 @@ find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*${lib_name}.dll
 
         # Копируем файл во временную директорию с новым именем
         cp "$file" "$temp_dir/$new_name"
-
-        #echo "Копирование файла $file_name в $temp_dir/$new_name"
     fi
 done
 
 echo "<?xml version="1.0" encoding="UTF-8"?>
-<bundle xmlns="http://v8.1c.ru/8.2/addin/bundle" name="ByteReader">
+<bundle xmlns="http://v8.1c.ru/8.2/addin/bundle" name="RegExp">
     <component os="Windows" path="i686-pc-windows-gnu-regexp_addin.dll" type="native" arch="i386" />
     <component os="Windows" path="x86_64-pc-windows-gnu-regexp_addin.dll" type="native" arch="x86_64" />
+    <component os="Linux" path="i686-unknown-linux-gnu-libregexp_addin.so" type="native" arch="i386" />
     <component os="Linux" path="x86_64-unknown-linux-gnu-libregexp_addin.so" type="native" arch="x86_64" />
 </bundle>" > "$temp_dir/Manifest.xml"
+
+echo "<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <progid>RegExp</progid>
+    <name>Регулярные выражения</name>
+    <version>0.1.0</version>
+</info>" > "$temp_dir/info.xml"
 
 # Упаковываем скопированные файлы в архив
 zip -r -j "$zipfile" "$temp_dir"
