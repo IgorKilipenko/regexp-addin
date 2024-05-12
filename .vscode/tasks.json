@@ -32,7 +32,7 @@
         {
             "label": "Build release",
             "type": "shell",
-            "command": "/bin/bash ./scripts/build.sh",
+            "command": "/bin/bash ./scripts/build.sh ./target release",
             "problemMatcher": [
                 "$rustc"
             ],
