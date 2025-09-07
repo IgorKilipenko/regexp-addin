@@ -9,11 +9,11 @@ pub struct RegExp {
     connection: Arc<Option<&'static Connection>>,
 
     #[add_in_func(name = "ReplaceText", name_ru = "ЗаменитьТекст")]
-    #[arg(Str)]
-    #[arg(Str)]
-    #[arg(Str)]
-    #[arg(Bool, default = false)]
-    #[returns(Str, result)]
+    #[arg(ty = Str)]
+    #[arg(ty = Str)]
+    #[arg(ty = Str)]
+    #[arg(ty = Bool, default = false)]
+    #[returns(ty = Str, result)]
     replace_text:
         fn(&Self, String, String, String, bool) -> Result<String, Box<dyn std::error::Error>>,
 }
