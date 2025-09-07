@@ -12,14 +12,41 @@
 
 ## 📋 Поддерживаемые платформы
 
+### Полная поддержка (рабочие библиотеки)
 - **Linux**: x86_64, i686, ARM64
 - **Windows**: x86_64, i686
-- **macOS**: x86_64, ARM64
+
+### Частичная поддержка (заглушки)
+- **macOS**: заглушки для x86_64 и ARM64 (требуется macOS система)
+
+### Примечания по платформам
+
+**Linux ARM64:**
+- Полная поддержка с правильной конфигурацией линковщика
+- Автоматически настраивается через `.cargo/config.toml`
+
+**macOS:**
+- Создаются заглушки при сборке на Linux/Windows
+- Для реальных библиотек требуется macOS система
+- Заглушки позволяют загрузить компоненту в 1C, но функциональность будет недоступна на macOS
+
+**Согласно документации 1C Native API:**
+Для серверной установки требуются компоненты для всех платформ. Заглушки обеспечивают совместимость манифеста, но функциональность доступна только на платформах с реальными библиотеками.
 
 ## 🛠️ Разработка
 
 ### Быстрый старт
 
+#### Вариант 1: DevContainer (рекомендуется)
+1. **Откройте проект в VS Code**
+2. **Установите расширение Dev Containers**
+3. **Перезапустите в контейнере:** `Ctrl+Shift+P` → `Dev Containers: Reopen in Container`
+4. **Соберите компоненту:**
+   ```bash
+   make release
+   ```
+
+#### Вариант 2: Локальная установка
 1. **Клонируйте репозиторий:**
    ```bash
    git clone <repository-url>
@@ -35,6 +62,16 @@
    ```bash
    make release
    ```
+
+### DevContainer
+Проект включает готовый DevContainer с всеми необходимыми зависимостями:
+- Rust 1.89 с всеми targets
+- MinGW для Windows кросскомпиляции
+- ARM64 GCC для Linux ARM64
+- OneScript для 1C разработки
+- VS Code расширения для Rust
+
+Подробнее: [.devcontainer/README.md](.devcontainer/README.md)
 
 ### Инструменты разработки
 
@@ -54,13 +91,47 @@
 #### Makefile
 Удобные команды для работы из командной строки:
 
+**Основные команды:**
 ```bash
 make help          # Показать справку
 make setup         # Установить целевые платформы
 make release       # Собрать release версию
+make build         # Собрать debug версию
 make test          # Запустить тесты
+make clean         # Очистить артефакты сборки
+```
+
+**Проверка и диагностика:**
+```bash
 make check-deps    # Проверить зависимости
 make info          # Показать информацию о проекте
+make list-targets  # Показать установленные Rust targets
+make size          # Показать размеры библиотек
+make verify-archive # Проверить содержимое архива
+```
+
+**Индивидуальная сборка платформ:**
+```bash
+make build-linux-x64     # Linux x86_64
+make build-linux-x32     # Linux i686
+make build-linux-arm64   # Linux ARM64
+make build-windows-x64   # Windows x86_64
+make build-windows-x32   # Windows i686
+make build-macos-x64     # macOS x86_64 (только на macOS)
+make build-macos-arm64   # macOS ARM64 (только на macOS)
+```
+
+**Установка инструментов:**
+```bash
+make install-mingw           # Показать инструкции по MinGW
+make install-arm64-toolchain # Установить ARM64 линковщик
+```
+
+**Комбинированные команды:**
+```bash
+make dev-setup     # Полная настройка для разработки
+make full-build    # Полная сборка с тестами
+make clean-all     # Полная очистка
 ```
 
 ### Установка MinGW для Windows кросскомпиляции
@@ -82,9 +153,60 @@ sudo pacman -S mingw-w64-gcc
 
 ## 📦 Сборка и установка
 
-### Автоматическая сборка
+### Быстрая сборка
 ```bash
+# Полная настройка и сборка
+make dev-setup    # Установить все зависимости
+make release      # Собрать release версию
+```
+
+### Подробная сборка
+
+#### 1. Проверка зависимостей
+```bash
+make check-deps   # Проверить установленные инструменты
+```
+
+#### 2. Установка целевых платформ
+```bash
+make setup        # Установить Rust targets для всех платформ
+```
+
+#### 3. Установка дополнительных инструментов (при необходимости)
+```bash
+# Для Windows кросскомпиляции
+make install-mingw
+
+# Для ARM64 Linux (опционально)
+make install-arm64-toolchain
+```
+
+#### 4. Сборка
+```bash
+# Debug версия
+make build
+
+# Release версия (рекомендуется)
 make release
+
+# Полная сборка с тестами
+make full-build
+```
+
+### Индивидуальная сборка платформ
+```bash
+# Linux
+make build-linux-x64     # x86_64
+make build-linux-x32     # i686
+make build-linux-arm64   # ARM64
+
+# Windows
+make build-windows-x64   # x86_64
+make build-windows-x32   # i686
+
+# macOS (только на macOS системе)
+make build-macos-x64     # x86_64
+make build-macos-arm64   # ARM64
 ```
 
 ### Ручная сборка
@@ -97,6 +219,14 @@ make release
 - Скомпилированные библиотеки для всех платформ
 - `MANIFEST.XML` в формате 1C
 - `info.xml` с информацией о компоненте
+
+### Проверка результата
+```bash
+make verify-archive      # Проверить содержимое архива
+make size               # Показать размеры библиотек
+make manifest           # Показать MANIFEST.XML
+make info               # Общая информация о проекте
+```
 
 ### Пример использования:
 

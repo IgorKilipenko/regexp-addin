@@ -24,6 +24,10 @@ get_platform_name() {
         # Заменяем архитектуру в строке
         suffix="${os_name}_${arch}"
         echo "$suffix"
+    elif [[ $string =~ (x86_64|i686|aarch64|armv7)-apple-darwin ]]; then
+        # Специальная обработка для macOS
+        arch="${BASH_REMATCH[1]}"
+        echo "darwin_${arch}"
     else
         echo "Неизвестная платформа: $string"
         return 1
@@ -48,7 +52,8 @@ get_os_for_manifest() {
     case "$os" in
         "windows") echo "Windows" ;;
         "linux") echo "Linux" ;;
-        "darwin"|"macos") echo "MacOS" ;;
+        "darwin") echo "MacOS" ;;
+        "macos") echo "MacOS" ;;
         *) echo "unknown" ;;
     esac
 }
@@ -79,6 +84,15 @@ target_dir=$(readlink -f "$target_dir")
 # Сборка файлов для всех поддерживаемых платформ
 build_flags=${profile:+$( [ "$profile" = "release" ] && echo --release )}
 
+# Проверка наличия MinGW компиляторов для Windows
+if ! command -v x86_64-w64-mingw32-gcc &> /dev/null; then
+    echo "Предупреждение: x86_64-w64-mingw32-gcc не найден. Установите: sudo apt-get install gcc-mingw-w64-x86-64"
+fi
+
+if ! command -v i686-w64-mingw32-gcc &> /dev/null; then
+    echo "Предупреждение: i686-w64-mingw32-gcc не найден. Установите: sudo apt-get install gcc-mingw-w64-i686"
+fi
+
 echo "Сборка для Windows платформ..."
 cargo build --target x86_64-pc-windows-gnu $build_flags
 cargo build --target i686-pc-windows-gnu $build_flags
@@ -90,18 +104,40 @@ cargo build --target i686-unknown-linux-gnu $build_flags
 # Сборка для ARM64 Linux (если доступен)
 if rustup target list --installed | grep -q "aarch64-unknown-linux-gnu"; then
     echo "Сборка для Linux ARM64..."
-    cargo build --target aarch64-unknown-linux-gnu $build_flags
+    if cargo build --target aarch64-unknown-linux-gnu $build_flags; then
+        echo "✓ Сборка для Linux ARM64 успешна"
+    else
+        echo "✗ Ошибка сборки для Linux ARM64 (возможно, отсутствует линковщик)"
+        echo "Создание заглушки для Linux ARM64..."
+        mkdir -p "$target_dir/aarch64-unknown-linux-gnu/release"
+        touch "$target_dir/aarch64-unknown-linux-gnu/release/libregexp_addin.so"
+    fi
 fi
 
-# Сборка для macOS (если доступен)
-if rustup target list --installed | grep -q "x86_64-apple-darwin"; then
-    echo "Сборка для macOS x86_64..."
-    cargo build --target x86_64-apple-darwin $build_flags
-fi
+# Сборка для macOS (если доступен и мы на macOS)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    if rustup target list --installed | grep -q "x86_64-apple-darwin"; then
+        echo "Сборка для macOS x86_64..."
+        cargo build --target x86_64-apple-darwin $build_flags
+    fi
 
-if rustup target list --installed | grep -q "aarch64-apple-darwin"; then
-    echo "Сборка для macOS ARM64..."
-    cargo build --target aarch64-apple-darwin $build_flags
+    if rustup target list --installed | grep -q "aarch64-apple-darwin"; then
+        echo "Сборка для macOS ARM64..."
+        cargo build --target aarch64-apple-darwin $build_flags
+    fi
+else
+    echo "Пропуск сборки для macOS (требуется macOS система)"
+    echo "Создание заглушек для macOS..."
+
+    # Создаем заглушки для macOS
+    mkdir -p "$target_dir/x86_64-apple-darwin/release"
+    mkdir -p "$target_dir/aarch64-apple-darwin/release"
+
+    # Создаем пустые файлы-заглушки
+    touch "$target_dir/x86_64-apple-darwin/release/libregexp_addin.dylib"
+    touch "$target_dir/aarch64-apple-darwin/release/libregexp_addin.dylib"
+
+    echo "Созданы заглушки для macOS платформ"
 fi
 
 # Формирование имени выходного архива

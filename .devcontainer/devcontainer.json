@@ -1,41 +1,93 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/rust
 {
-	"name": "Rust",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"name": "RegExp AddIn Development",
 	"build": {
-		"dockerfile": "Dockerfile"
+		"dockerfile": "Dockerfile",
+		"target": "development"
 	},
 
 	// Use 'mounts' to make the cargo cache persistent in a Docker Volume.
 	"mounts": [
-		// {
-		// 	"source": "~/Documents/_onec_dbs/regex-addin-tests/storage",
-		// 	"target": "/workspaces/onec-storage",
-		// 	"type": "bind"
-		// },
 		{
 			"source": "devcontainer-cargo-cache-${devcontainerId}",
 			"target": "/usr/local/cargo",
 			"type": "volume"
+		},
+		{
+			"source": "devcontainer-rustup-cache-${devcontainerId}",
+			"target": "/usr/local/rustup",
+			"type": "volume"
 		}
 	],
 
-	// Features to add to the dev container. More info: https://containers.dev/features.
+	// Features to add to the dev container
 	"features": {
-		"rust": {
-			"version": "latest",
-			"profile": "default"
-		}
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
 	},
+
+	// VS Code customizations
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				// Rust development
+				"rust-lang.rust-analyzer",
+				"vadimcn.vscode-lldb",
+				"tamasfe.even-better-toml",
+
+				// Code quality
 				"streetsidesoftware.code-spell-checker",
 				"streetsidesoftware.code-spell-checker-russian",
+				"ms-vscode.vscode-json",
+
+				// Development tools
 				"redhat.vscode-yaml",
-				"ms-azuretools.vscode-docker"
-			]
+				"ms-azuretools.vscode-docker",
+				"ms-vscode.makefile-tools",
+				"ms-vscode.hexeditor",
+
+				// Git and version control
+				"eamodio.gitlens",
+				"github.vscode-pull-request-github",
+
+				// Documentation
+				"yzhang.markdown-all-in-one",
+				"davidanson.vscode-markdownlint"
+			],
+			"settings": {
+				"rust-analyzer.checkOnSave.command": "clippy",
+				"rust-analyzer.checkOnSave.extraArgs": ["--", "-D", "warnings"],
+				"rust-analyzer.cargo.features": "all",
+				"rust-analyzer.procMacro.enable": true,
+				"editor.formatOnSave": true,
+				"editor.defaultFormatter": "rust-lang.rust-analyzer",
+				"files.associations": {
+					"*.toml": "toml",
+					"Cargo.toml": "toml",
+					"Cargo.lock": "toml"
+				},
+				"makefile.launchConfigurations": [
+					{
+						"cwd": "${workspaceFolder}",
+						"binaryPath": "make",
+						"binaryArgs": ["help"]
+					}
+				]
+			}
 		}
-	}
+	},
+
+	// Post-create commands
+	"postCreateCommand": "make check-deps && make info",
+
+	// Ports to forward
+	"forwardPorts": [3000, 8080],
+
+	// Environment variables
+	"containerEnv": {
+		"RUST_BACKTRACE": "1",
+		"RUST_LOG": "debug"
+	},
+
+	// Remote user
+	"remoteUser": "root"
 }

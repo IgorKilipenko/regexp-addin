@@ -13,7 +13,10 @@
 #   make artifacts     - показать артефакты сборки
 #   make manifest      - показать содержимое MANIFEST.XML
 
-.PHONY: help setup build release clean test check clippy fmt artifacts manifest install-mingw
+.PHONY: help setup build release clean test check clippy fmt artifacts manifest install-mingw \
+	build-linux-x64 build-linux-x32 build-linux-arm64 build-windows-x64 build-windows-x32 \
+	build-macos-x64 build-macos-arm64 list-targets list-available-targets size verify-archive \
+	install-arm64-toolchain check-deps dev-setup full-build clean-all info
 
 # Переменные
 TARGET_DIR = ./target
@@ -103,6 +106,10 @@ build-linux-x32: ## Собрать для Linux i686
 	@echo "$(BLUE)Сборка для Linux i686...$(NC)"
 	@cargo build --target i686-unknown-linux-gnu --release
 
+build-linux-arm64: ## Собрать для Linux ARM64
+	@echo "$(BLUE)Сборка для Linux ARM64...$(NC)"
+	@cargo build --target aarch64-unknown-linux-gnu --release
+
 build-windows-x64: ## Собрать для Windows x86_64
 	@echo "$(BLUE)Сборка для Windows x86_64...$(NC)"
 	@cargo build --target x86_64-pc-windows-gnu --release
@@ -110,6 +117,22 @@ build-windows-x64: ## Собрать для Windows x86_64
 build-windows-x32: ## Собрать для Windows i686
 	@echo "$(BLUE)Сборка для Windows i686...$(NC)"
 	@cargo build --target i686-pc-windows-gnu --release
+
+build-macos-x64: ## Собрать для macOS x86_64 (только на macOS)
+	@echo "$(BLUE)Сборка для macOS x86_64...$(NC)"
+	@if [[ "$(shell uname)" == "Darwin" ]]; then \
+		cargo build --target x86_64-apple-darwin --release; \
+	else \
+		echo "$(RED)Сборка для macOS доступна только на macOS системе$(NC)"; \
+	fi
+
+build-macos-arm64: ## Собрать для macOS ARM64 (только на macOS)
+	@echo "$(BLUE)Сборка для macOS ARM64...$(NC)"
+	@if [[ "$(shell uname)" == "Darwin" ]]; then \
+		cargo build --target aarch64-apple-darwin --release; \
+	else \
+		echo "$(RED)Сборка для macOS доступна только на macOS системе$(NC)"; \
+	fi
 
 # Утилиты
 artifacts: ## Показать артефакты сборки
@@ -183,6 +206,63 @@ check-deps: ## Проверить установленные зависимос�
 		echo "$(GREEN)✓$(NC)"; \
 	else \
 		echo "$(RED)✗ Не установлен$(NC)"; \
+	fi
+	@echo -n "  ARM64 линковщик: "
+	@if command -v aarch64-linux-gnu-gcc >/dev/null 2>&1 || command -v aarch64-linux-gnu-gcc-10 >/dev/null 2>&1 || command -v aarch64-linux-gnu-gcc-11 >/dev/null 2>&1; then \
+		echo "$(GREEN)✓$(NC)"; \
+	else \
+		echo "$(YELLOW)⚠ Не установлен (создаются заглушки)$(NC)"; \
+	fi
+
+# Дополнительные утилиты
+list-targets: ## Показать установленные Rust targets
+	@echo "$(BLUE)Установленные Rust targets:$(NC)"
+	@rustup target list --installed | sed 's/^/  /'
+
+list-available-targets: ## Показать все доступные Rust targets
+	@echo "$(BLUE)Доступные Rust targets:$(NC)"
+	@rustup target list | grep -E "(linux|windows|darwin)" | sed 's/^/  /'
+
+size: ## Показать размеры скомпилированных библиотек
+	@echo "$(BLUE)Размеры скомпилированных библиотек:$(NC)"
+	@if [ -d "$(TARGET_DIR)" ]; then \
+		find $(TARGET_DIR) -name "*.so" -o -name "*.dll" -o -name "*.dylib" | \
+		while read file; do \
+			if [ -f "$$file" ] && [ -s "$$file" ]; then \
+				size=$$(ls -lh "$$file" | awk '{print $$5}'); \
+				platform=$$(echo "$$file" | sed 's/.*target\///' | cut -d'/' -f1); \
+				arch=$$(echo "$$file" | sed 's/.*target\///' | cut -d'/' -f1 | sed 's/-.*//'); \
+				echo "  $$platform ($$arch): $$size"; \
+			fi; \
+		done; \
+	else \
+		echo "$(RED)Библиотеки не найдены. Запустите 'make build' или 'make release'$(NC)"; \
+	fi
+
+verify-archive: ## Проверить содержимое архива
+	@echo "$(BLUE)Проверка архива:$(NC)"
+	@if [ -f "$(TARGET_DIR)/out/regexp_addin.zip" ]; then \
+		echo "  Архив: $(GREEN)✓$(NC)"; \
+		echo "  Размер: $$(ls -lh $(TARGET_DIR)/out/regexp_addin.zip | awk '{print $$5}')"; \
+		echo "  Содержимое:"; \
+		cd $(TARGET_DIR)/out && unzip -l regexp_addin.zip | tail -n +4 | head -n -2 | sed 's/^/    /'; \
+	else \
+		echo "$(RED)Архив не найден. Запустите 'make build' или 'make release'$(NC)"; \
+	fi
+
+install-arm64-toolchain: ## Установить ARM64 линковщик для Linux
+	@echo "$(BLUE)Установка ARM64 линковщика...$(NC)"
+	@if command -v apt-get >/dev/null 2>&1; then \
+		echo "Установка через apt-get..."; \
+		sudo apt-get install -y gcc-aarch64-linux-gnu; \
+	elif command -v dnf >/dev/null 2>&1; then \
+		echo "Установка через dnf..."; \
+		sudo dnf install -y gcc-aarch64-linux-gnu; \
+	elif command -v pacman >/dev/null 2>&1; then \
+		echo "Установка через pacman..."; \
+		sudo pacman -S aarch64-linux-gnu-gcc; \
+	else \
+		echo "$(RED)Неизвестный пакетный менеджер$(NC)"; \
 	fi
 
 # По умолчанию показываем справку

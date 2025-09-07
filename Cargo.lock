@@ -182,7 +182,7 @@ checksum = "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0"
 [[package]]
 name = "native_api_1c"
 version = "0.11.0-beta.1"
-source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=dev%2Ftvariant#ab35634a09758227b19e0a84cd333f62e56f4770"
+source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=main#7e1130e35a5fdf77fc0bdfbacbc1623aea39339b"
 dependencies = [
  "native_api_1c_core",
  "native_api_1c_macro",
@@ -191,7 +191,7 @@ dependencies = [
 [[package]]
 name = "native_api_1c_core"
 version = "0.9.4"
-source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=dev%2Ftvariant#ab35634a09758227b19e0a84cd333f62e56f4770"
+source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=main#7e1130e35a5fdf77fc0bdfbacbc1623aea39339b"
 dependencies = [
  "chrono",
  "quote",
@@ -203,7 +203,7 @@ dependencies = [
 [[package]]
 name = "native_api_1c_macro"
 version = "0.10.5"
-source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=dev%2Ftvariant#ab35634a09758227b19e0a84cd333f62e56f4770"
+source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=main#7e1130e35a5fdf77fc0bdfbacbc1623aea39339b"
 dependencies = [
  "darling",
  "proc-macro2",
