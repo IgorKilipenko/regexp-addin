@@ -14,16 +14,22 @@ pub struct RegExp {
     #[arg(ty = Str)]
     #[arg(ty = Bool, default = false)]
     #[returns(ty = Str, result)]
-    replace_text:
-        fn(&Self, String, String, String, bool) -> Result<String, Box<dyn std::error::Error>>,
+    #[allow(clippy::type_complexity)]
+    replace_text: fn(&Self, String, String, String, bool) -> Result<String, Box<dyn std::error::Error>>,
 }
 
-impl RegExp {
-    pub fn new() -> Self {
+impl Default for RegExp {
+    fn default() -> Self {
         Self {
             connection: Arc::new(None),
             replace_text: Self::replace_text,
         }
+    }
+}
+
+impl RegExp {
+    pub fn new() -> Self {
+        Self::default()
     }
 
     pub fn replace_text(

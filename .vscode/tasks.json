@@ -2,44 +2,152 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Setup Rust Targets",
+            "type": "shell",
+            "command": "./scripts/setup-targets.sh",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Debug (All Platforms)",
+            "type": "shell",
+            "command": "./scripts/build.sh",
+            "args": ["./target", "debug"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Build Release (All Platforms)",
+            "type": "shell",
+            "command": "./scripts/build.sh",
+            "args": ["./target", "release"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Build Linux x86_64",
             "type": "cargo",
             "command": "build",
-            "args": [
-                "--target",
-                "x86_64-pc-windows-gnu",
-            ],
-            "problemMatcher": [
-                "$rustc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
+            "args": ["--target", "x86_64-unknown-linux-gnu", "--release"],
+            "group": "build",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Build Linux i686",
+            "type": "cargo",
+            "command": "build",
+            "args": ["--target", "i686-unknown-linux-gnu", "--release"],
+            "group": "build",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Build Windows x86_64",
+            "type": "cargo",
+            "command": "build",
+            "args": ["--target", "x86_64-pc-windows-gnu", "--release"],
+            "group": "build",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Build Windows i686",
+            "type": "cargo",
+            "command": "build",
+            "args": ["--target", "i686-pc-windows-gnu", "--release"],
+            "group": "build",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Test",
+            "type": "cargo",
+            "command": "test",
+            "group": "test",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Check",
+            "type": "cargo",
+            "command": "check",
+            "group": "build",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Clippy",
+            "type": "cargo",
+            "command": "clippy",
+            "args": ["--", "-D", "warnings"],
+            "group": "build",
+            "problemMatcher": ["$rustc"]
+        },
+        {
+            "label": "Format",
+            "type": "cargo",
+            "command": "fmt",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean",
+            "type": "cargo",
+            "command": "clean",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Clean All (including target)",
+            "type": "shell",
+            "command": "rm",
+            "args": ["-rf", "./target"],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Show Build Artifacts",
+            "type": "shell",
+            "command": "ls",
+            "args": ["-la", "./target/out/"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
             },
-            "label": "rust: cargo build win64"
+            "problemMatcher": []
         },
         {
-            "label": "Build debug",
+            "label": "Extract and View Manifest",
             "type": "shell",
-            "command": "/bin/bash ./scripts/build.sh",
-            "problemMatcher": [
-                "$rustc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
-        },
-        {
-            "label": "Build release",
-            "type": "shell",
-            "command": "/bin/bash ./scripts/build.sh ./target release",
-            "problemMatcher": [
-                "$rustc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            }
+            "command": "bash",
+            "args": ["-c", "cd ./target/out && unzip -p regexp_addin.zip Manifest.xml | cat"],
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+            "problemMatcher": []
         },
         {
             "type": "shell",
@@ -52,7 +160,7 @@
                 "${workspaceRoot}/example/src"
             ],
             "group": "none",
-            "label": "oscript: gitsync sync"
+            "label": "1C: GitSync Sync"
         }
     ]
 }

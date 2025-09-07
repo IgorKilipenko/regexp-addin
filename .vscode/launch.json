@@ -4,7 +4,7 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug 1С",
+            "name": "Debug 1C (Linux x64)",
             "program": "/opt/1cv8/x86_64/8.3.24.1368/1cv8c",
             "args": [
                 "/IBName",
@@ -13,7 +13,7 @@
                 "-",
                 "/C",
                 "РежимОтладки",
-                "/L", 
+                "/L",
                 "ru",
                 "/VL",
                 "ru_RU",
@@ -26,7 +26,61 @@
                 "tcp://127.0.0.1:1564"
             ],
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "rust: cargo build"
+            "preLaunchTask": "Build Linux x86_64",
+            "env": {
+                "RUST_LOG": "debug"
+            }
         },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug 1C (Linux x32)",
+            "program": "/opt/1cv8/i386/8.3.24.1368/1cv8c",
+            "args": [
+                "/IBName",
+                "AddinTest2",
+                "/WA",
+                "-",
+                "/C",
+                "РежимОтладки",
+                "/L",
+                "ru",
+                "/VL",
+                "ru_RU",
+                "/DisplayPerformance",
+                "/TechnicalSpecialistMode",
+                "/EnableCheckExtensionsAndAddInsSyncCalls",
+                "/DEBUG",
+                "-tcp",
+                "DEBUGGERURL",
+                "tcp://127.0.0.1:1564"
+            ],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Build Linux i686",
+            "env": {
+                "RUST_LOG": "debug"
+            }
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug Unit Tests",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=regexp-addin"
+                ],
+                "filter": {
+                    "name": "regexp-addin",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "RUST_LOG": "debug"
+            }
+        }
     ]
 }

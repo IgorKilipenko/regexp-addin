@@ -1,8 +1,102 @@
 # Регулярные выражения для платформы 1С:Предприятие 8.3 (AddIn Native API)
 
-### Поддерживаемые платформы:
-- Linux (x86, x86-64)
-- Windows (x86, x86-64)
+Внешняя компонента для работы с регулярными выражениями в 1С:Предприятие 8.3, реализованная на Rust с использованием Native API.
+
+## 🚀 Возможности
+
+- Выполнение регулярных выражений
+- Замена текста по шаблону
+- Поддержка всех основных платформ 1С:Предприятие
+- Высокая производительность благодаря Rust
+- Простое API для использования в 1С
+
+## 📋 Поддерживаемые платформы
+
+- **Linux**: x86_64, i686, ARM64
+- **Windows**: x86_64, i686
+- **macOS**: x86_64, ARM64
+
+## 🛠️ Разработка
+
+### Быстрый старт
+
+1. **Клонируйте репозиторий:**
+   ```bash
+   git clone <repository-url>
+   cd regexp-addin
+   ```
+
+2. **Установите зависимости:**
+   ```bash
+   make setup
+   ```
+
+3. **Соберите компоненту:**
+   ```bash
+   make release
+   ```
+
+### Инструменты разработки
+
+#### VS Code
+Проект настроен для работы в VS Code с расширениями:
+- Rust Analyzer
+- Makefile Tools
+- Code Spell Checker
+
+**Доступные задачи (Ctrl+Shift+P → Tasks):**
+- `Build Debug (All Platforms)` - сборка debug версии
+- `Build Release (All Platforms)` - сборка release версии
+- `Test` - запуск тестов
+- `Clippy` - проверка кода
+- `Format` - форматирование кода
+
+#### Makefile
+Удобные команды для работы из командной строки:
+
+```bash
+make help          # Показать справку
+make setup         # Установить целевые платформы
+make release       # Собрать release версию
+make test          # Запустить тесты
+make check-deps    # Проверить зависимости
+make info          # Показать информацию о проекте
+```
+
+### Установка MinGW для Windows кросскомпиляции
+
+Для сборки Windows версий из Linux:
+
+```bash
+# Ubuntu/Debian
+sudo apt-get install gcc-mingw-w64-x86-64 gcc-mingw-w64-i686
+
+# Fedora
+sudo dnf install mingw64-gcc mingw32-gcc
+
+# Arch Linux
+sudo pacman -S mingw-w64-gcc
+```
+
+Подробные инструкции см. в [scripts/INSTALL_MINGW.md](scripts/INSTALL_MINGW.md)
+
+## 📦 Сборка и установка
+
+### Автоматическая сборка
+```bash
+make release
+```
+
+### Ручная сборка
+```bash
+./scripts/build.sh ./target release
+```
+
+### Результат сборки
+После сборки в `target/out/` создается архив `regexp_addin.zip` содержащий:
+- Скомпилированные библиотеки для всех платформ
+- `MANIFEST.XML` в формате 1C
+- `info.xml` с информацией о компоненте
 
 ### Пример использования:
 

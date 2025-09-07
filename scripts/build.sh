@@ -17,7 +17,7 @@ get_platform_name() {
     local string="$1"
 
     # Используем регулярное выражение для извлечения архитектуры (префикса)
-    if [[ $string =~ (x86_64|i686)-.*-(windows|linux)-.* ]]; then
+    if [[ $string =~ (x86_64|i686|aarch64|armv7)-.*-(windows|linux|darwin|macos)-.* ]]; then
         arch="${BASH_REMATCH[1]}"
         os_name="${BASH_REMATCH[2]}"
 
@@ -28,6 +28,29 @@ get_platform_name() {
         echo "Неизвестная платформа: $string"
         return 1
     fi
+}
+
+# Функция для определения архитектуры для MANIFEST.XML
+get_arch_for_manifest() {
+    local arch="$1"
+    case "$arch" in
+        "i686") echo "i386" ;;
+        "x86_64") echo "x86_64" ;;
+        "aarch64") echo "ARM64" ;;
+        "armv7") echo "ARM" ;;
+        *) echo "unknown" ;;
+    esac
+}
+
+# Функция для определения ОС для MANIFEST.XML
+get_os_for_manifest() {
+    local os="$1"
+    case "$os" in
+        "windows") echo "Windows" ;;
+        "linux") echo "Linux" ;;
+        "darwin"|"macos") echo "MacOS" ;;
+        *) echo "unknown" ;;
+    esac
 }
 
 # Обработка аргументов
@@ -53,12 +76,33 @@ fi
 # Получение абсолютного пути папки targrt
 target_dir=$(readlink -f "$target_dir")
 
-# Сборка файлов
+# Сборка файлов для всех поддерживаемых платформ
 build_flags=${profile:+$( [ "$profile" = "release" ] && echo --release )}
+
+echo "Сборка для Windows платформ..."
 cargo build --target x86_64-pc-windows-gnu $build_flags
 cargo build --target i686-pc-windows-gnu $build_flags
+
+echo "Сборка для Linux платформ..."
 cargo build --target x86_64-unknown-linux-gnu $build_flags
 cargo build --target i686-unknown-linux-gnu $build_flags
+
+# Сборка для ARM64 Linux (если доступен)
+if rustup target list --installed | grep -q "aarch64-unknown-linux-gnu"; then
+    echo "Сборка для Linux ARM64..."
+    cargo build --target aarch64-unknown-linux-gnu $build_flags
+fi
+
+# Сборка для macOS (если доступен)
+if rustup target list --installed | grep -q "x86_64-apple-darwin"; then
+    echo "Сборка для macOS x86_64..."
+    cargo build --target x86_64-apple-darwin $build_flags
+fi
+
+if rustup target list --installed | grep -q "aarch64-apple-darwin"; then
+    echo "Сборка для macOS ARM64..."
+    cargo build --target aarch64-apple-darwin $build_flags
+fi
 
 # Формирование имени выходного архива
 lib_name="regexp_addin"
@@ -82,16 +126,25 @@ xml_components=""
 
 cd "$target_dir/out" || exit
 
-# Используем find для поиска файлов .so и .dll в поддиректориях debug, игнорируя путь */debug/*deps
+# Используем find для поиска файлов .so, .dll и .dylib в поддиректориях, игнорируя путь */deps
 # Передаем их в цикл for, где копируем файлы во временную директорию с измененными именами
-for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*${lib_name}.dll" \) \( -path "*/${profile}/*" -not -path "*/deps/*" \)); do
+for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*${lib_name}.dll" -o -name "*${lib_name}.dylib" \) \( -path "*/${profile}/*" -not -path "*/deps/*" \)); do
     file_name=$(basename "$file")
     component_name=$(basename "$file_name" | sed 's/^lib//; s/\.[^.]*$//')
     extension="${file_name##*.}"
 
     parent_dir=$(basename "$(dirname $(dirname "$file"))")
     platform_name=$(get_platform_name "$parent_dir")
-    new_name="${component_name}_${platform_name}.${extension}"
+
+    # Определяем правильное расширение для разных ОС
+    case "$extension" in
+        "so") new_extension="so" ;;
+        "dll") new_extension="dll" ;;
+        "dylib") new_extension="dylib" ;;
+        *) new_extension="$extension" ;;
+    esac
+
+    new_name="${component_name}_${platform_name}.${new_extension}"
 
     # Если имя файла уникально
     if [[ -z ${unique_names[$new_name]} ]]; then
@@ -101,34 +154,33 @@ for file in $(find "$target_dir" -type f \( -name "*${lib_name}.so" -o -name "*$
         # Копируем файл во временную директорию с новым именем
         cp "$file" "$temp_dir/$new_name"
 
-        # Определение архитектуры
-        if [[ $platform_name == *"i686" ]]; then
-            arch="i386"
-        elif [[ $platform_name == *"x86_64" ]]; then
-            arch="x86_64"
-        else
-            echo "Неизвестная архитектура платформы: $platform_name"
-            return 1
-        fi
+        # Извлекаем архитектуру и ОС из platform_name
+        if [[ $platform_name =~ ^(windows|linux|darwin|macos)_(.*)$ ]]; then
+            os_part="${BASH_REMATCH[1]}"
+            arch_part="${BASH_REMATCH[2]}"
 
-        # Определение ОС
-        if [[ $platform_name == "windows"* ]]; then
-            os="Windows"
-        elif [[ $platform_name == "linux"* ]]; then
-            os="Linux"
-        else
-            echo "Неизвестная операционная система платформы: $platform_name"
-            return 1
-        fi
+            # Определение архитектуры для MANIFEST.XML
+            arch=$(get_arch_for_manifest "$arch_part")
 
-        # Формирование строки компонента XML
-        xml_component="    <component os=\"$os\" path=\"$new_name\" type=\"native\" arch=\"$arch\" />"
+            # Определение ОС для MANIFEST.XML
+            os=$(get_os_for_manifest "$os_part")
 
-        # Добавление строки компонента в общий XML
-        if [[ $xml_components == "" ]]; then
-            xml_components="$xml_component"
+            if [[ "$arch" == "unknown" || "$os" == "unknown" ]]; then
+                echo "Предупреждение: Неизвестная платформа $platform_name, пропускаем"
+                continue
+            fi
+
+            # Формирование строки компонента XML
+            xml_component="    <component os=\"$os\" path=\"$new_name\" type=\"native\" arch=\"$arch\" />"
+
+            # Добавление строки компонента в общий XML
+            if [[ $xml_components == "" ]]; then
+                xml_components="$xml_component"
+            else
+                xml_components=$(printf "%s\n%s" "$xml_components" "$xml_component")
+            fi
         else
-            xml_components=$(printf "%s\n%s" "$xml_components" "$xml_component")
+            echo "Предупреждение: Не удалось разобрать платформу $platform_name, пропускаем"
         fi
     fi
 done

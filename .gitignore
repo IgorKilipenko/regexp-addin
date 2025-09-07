@@ -1,2 +1,47 @@
-target/**
-!target/out
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock
+
+# IDE
+#.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.zip
+*.tar.gz
+*.tar.bz2
+*.pkg
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+flist.lst
+
+# 1C specific
+*.cf
+*.epf
+*.erf
+*.dt
+*.cfu
+*.epfu
+*.erfu
+*.dtu
+
+# Backup files
+*.bak
+*.backup
