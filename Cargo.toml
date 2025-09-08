@@ -8,6 +8,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 utf16_lit = "2.0"
-native_api_1c = { git = "https://github.com/IgorKilipenko/native_api_1c_fork.git", branch = "dev/tvariant" }
+native_api_1c = { git = "https://github.com/IgorKilipenko/native_api_1c_fork.git", branch = "fix/ffi-comp" }
 chrono = "0.4.26"
 regex = "1.10"

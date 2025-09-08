@@ -1,4 +1,4 @@
-use native_api_1c::{native_api_1c_core::ffi::connection::Connection, native_api_1c_macro::AddIn};
+use native_api_1c::{native_api_1c_core::ffi::connection::Connection, native_api_1c_macro::AddIn, native_api_1c_macro::extern_functions};
 use std::sync::Arc;
 
 mod regex_addin;
@@ -49,4 +49,8 @@ impl RegExp {
     pub fn get_version(&self) -> String {
         env!("CARGO_PKG_VERSION").to_string()
     }
+}
+
+extern_functions! {
+    RegExp::default(),
 }
