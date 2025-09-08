@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-version="0.1.1"
+version=$(grep '^version' Cargo.toml | head -1 | cut -d '"' -f2)
 progid="RegExp"
 
 # Получение имени платформы
