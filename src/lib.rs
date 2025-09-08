@@ -19,6 +19,9 @@ pub struct RegExp {
     #[add_in_func(name = "GetVersion", name_ru = "ПолучитьВерсию")]
     #[returns(ty = Str, result)]
     pub get_version: fn(&Self) -> Result<String, Box<dyn std::error::Error>>,
+
+    #[add_in_prop(ty = Str, name = "Version", name_ru = "Версия", readable)]
+    pub prop_version: String,
 }
 
 impl Default for RegExp {
@@ -27,6 +30,7 @@ impl Default for RegExp {
             connection: Arc::new(None),
             replace_text: Self::replace_text,
             get_version: Self::get_version,
+            prop_version: get_component_version(),
         }
     }
 }
@@ -47,8 +51,12 @@ impl RegExp {
     }
 
     pub fn get_version(&self) -> Result<String, Box<dyn std::error::Error>> {
-        Ok(env!("CARGO_PKG_VERSION").to_string())
+        Ok(get_component_version())
     }
+}
+
+fn get_component_version() -> String {
+    env!("CARGO_PKG_VERSION").to_string()
 }
 
 extern_functions! {

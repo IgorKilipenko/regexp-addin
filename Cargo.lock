@@ -175,6 +175,7 @@ checksum = "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0"
 [[package]]
 name = "native_api_1c"
 version = "0.10.7"
+source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=old%2Flast#d4692647c64fa0513d9e2931ac34296e3bf65afc"
 dependencies = [
  "native_api_1c_core",
  "native_api_1c_macro",
@@ -183,6 +184,7 @@ dependencies = [
 [[package]]
 name = "native_api_1c_core"
 version = "0.9.4"
+source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=old%2Flast#d4692647c64fa0513d9e2931ac34296e3bf65afc"
 dependencies = [
  "chrono",
  "quote",
@@ -193,6 +195,7 @@ dependencies = [
 [[package]]
 name = "native_api_1c_macro"
 version = "0.10.5"
+source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=old%2Flast#d4692647c64fa0513d9e2931ac34296e3bf65afc"
 dependencies = [
  "darling",
  "proc-macro2",
