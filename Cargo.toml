@@ -8,6 +8,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 utf16_lit = "2.0"
-native_api_1c = { git = "https://github.com/IgorKilipenko/native_api_1c_fork.git", branch = "fix/ffi-comp" }
+#native_api_1c = { git = "https://github.com/IgorKilipenko/native_api_1c_fork.git", branch = "old/last" }
+native_api_1c = { path = "/mnt/SSD_2TB_2023/git/onec/native_api_1c_temp_repo/native_api_1c"}
 chrono = "0.4.26"
 regex = "1.10"

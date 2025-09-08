@@ -14,11 +14,11 @@ pub struct RegExp {
     #[arg(ty = Str)]
     #[arg(ty = Bool, default = false)]
     #[returns(ty = Str, result)]
-    #[allow(clippy::type_complexity)]
     replace_text: fn(&Self, String, String, String, bool) -> Result<String, Box<dyn std::error::Error>>,
 
-    #[add_in_prop(ty = Str, name = "Version", name_ru = "Версия", readable)]
-    pub get_version: String,
+    #[add_in_func(name = "GetVersion", name_ru = "ПолучитьВерсию")]
+    #[returns(ty = Str, result)]
+    pub get_version: fn(&Self) -> Result<String, Box<dyn std::error::Error>>,
 }
 
 impl Default for RegExp {
@@ -26,7 +26,7 @@ impl Default for RegExp {
         Self {
             connection: Arc::new(None),
             replace_text: Self::replace_text,
-            get_version: "".to_string(),
+            get_version: Self::get_version,
         }
     }
 }
@@ -46,8 +46,8 @@ impl RegExp {
         regex_addin::replace_text(text, pattern, rep, all)
     }
 
-    pub fn get_version(&self) -> String {
-        env!("CARGO_PKG_VERSION").to_string()
+    pub fn get_version(&self) -> Result<String, Box<dyn std::error::Error>> {
+        Ok(env!("CARGO_PKG_VERSION").to_string())
     }
 }
 

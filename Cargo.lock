@@ -174,8 +174,7 @@ checksum = "32a282da65faaf38286cf3be983213fcf1d2e2a58700e808f83f4ea9a4804bc0"
 
 [[package]]
 name = "native_api_1c"
-version = "0.11.0-beta.1"
-source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=fix%2Fffi-comp#09843c79a1963d334d28e331ccff0f413de4121f"
+version = "0.10.7"
 dependencies = [
  "native_api_1c_core",
  "native_api_1c_macro",
@@ -184,19 +183,16 @@ dependencies = [
 [[package]]
 name = "native_api_1c_core"
 version = "0.9.4"
-source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=fix%2Fffi-comp#09843c79a1963d334d28e331ccff0f413de4121f"
 dependencies = [
  "chrono",
  "quote",
  "syn",
- "thiserror",
  "utf16_lit",
 ]
 
 [[package]]
 name = "native_api_1c_macro"
 version = "0.10.5"
-source = "git+https://github.com/IgorKilipenko/native_api_1c_fork.git?branch=fix%2Fffi-comp#09843c79a1963d334d28e331ccff0f413de4121f"
 dependencies = [
  "darling",
  "proc-macro2",
@@ -303,26 +299,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
-]
-
-[[package]]
-name = "thiserror"
-version = "2.0.16"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3467d614147380f2e4e374161426ff399c91084acd2363eaf549172b3d5e60c0"
-dependencies = [
- "thiserror-impl",
-]
-
-[[package]]
-name = "thiserror-impl"
-version = "2.0.16"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c5e1be1c48b9172ee610da68fd9cd2770e7a4056cb3fc98710ee6906f0c7960"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]

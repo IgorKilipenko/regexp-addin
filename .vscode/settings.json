@@ -6,29 +6,5 @@
         "rustup",
         "mingw",
         "clippy"
-    ],
-    "rust-analyzer.checkOnSave.command": "clippy",
-    "rust-analyzer.checkOnSave.extraArgs": ["--", "-D", "warnings"],
-    "rust-analyzer.cargo.buildScripts.enable": true,
-    "rust-analyzer.procMacro.enable": true,
-    "files.exclude": {
-        "**/target/debug": true,
-        "**/target/release": true,
-        "**/target/*/debug": true,
-        "**/target/*/release": true,
-        "**/target/*/deps": true,
-        "**/target/*/build": true,
-        "**/target/*/incremental": true
-    },
-    "search.exclude": {
-        "**/target": true,
-        "**/Cargo.lock": true
-    },
-    "terminal.integrated.defaultProfile.linux": "bash",
-    "terminal.integrated.cwd": "${workspaceFolder}",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.fixAll": "explicit",
-        "source.organizeImports": "explicit"
-    }
+    ]
 }
